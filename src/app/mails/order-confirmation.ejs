@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+      .email-container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+      }
+      .email-header {
+        font-size: 28px;
+        font-weight: 700;
+        color: #444;
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #eeeeee;
+        padding-bottom: 15px;
+      }
+      .email-content p {
+        font-size: 18px;
+        color: #555;
+        line-height: 1.8;
+        margin: 10px 0;
+        padding: 8px 0;
+        border-bottom: 1px solid #eeeeee;
+      }
+      .email-content p:last-child {
+        border-bottom: none;
+      }
+      .email-footer {
+        margin-top: 30px;
+        font-size: 16px;
+        color: #777;
+        text-align: center;
+      }
+      .email-footer p {
+        margin: 0;
+        font-style: italic;
+      }
+      .thank-you {
+        font-size: 20px;
+        color: #4caf50;
+        font-weight: 600;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="email-header">Order Confirmation</div>
+      <div class="email-content">
+        <p><strong>Order ID:</strong> <%= order._id %></p>
+        <p><strong>Date:</strong> <%= order.date %></p>
+        <p><strong>Name:</strong> <%= order.name %></p>
+        <p><strong>Total Price:</strong> <%= order.price %></p>
+      </div>
+      <div class="email-footer">
+        <p class="thank-you">Thank you for your purchase!</p>
+        <p>We hope to see you again soon.</p>
+      </div>
+    </div>
+  </body>
+</html>

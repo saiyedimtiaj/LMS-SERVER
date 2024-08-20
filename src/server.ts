@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
 import app from "./app";
 import config from "./app/config";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: config.cloud_name,
+  api_key: config.api_key,
+  api_secret: config.api_secret,
+});
 
 async function main() {
   try {

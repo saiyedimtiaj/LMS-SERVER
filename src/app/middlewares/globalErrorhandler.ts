@@ -6,7 +6,7 @@ import handleDuplicateError from "../errors/handleDuplicateError";
 import handleValidationError from "../errors/handleValidationError";
 import { TErrorSources } from "../interface/error";
 
-const globalErrorHandler: ErrorRequestHandler = (err, req, res) => {
+const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   console.log(err.statusCode);
   let statusCode = 500;
   let message = "Something went wrong!";
