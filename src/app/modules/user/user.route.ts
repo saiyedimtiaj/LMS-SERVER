@@ -13,6 +13,9 @@ route.post(
   isAuthenticated,
   userController.logOutUser
 );
+
+route.post("/social-login", userController.socialLogin);
+
 route.get("/refreshtoken", updateAccessToken);
 
 route.get(

@@ -29,6 +29,9 @@ const userSchema: Schema<IUser> = new Schema(
       type: String,
       default: "",
     },
+    provider: {
+      type: String,
+    },
     phone: {
       type: String,
       default: "",
@@ -38,10 +41,6 @@ const userSchema: Schema<IUser> = new Schema(
       url: { type: String },
     },
     role: { type: String, default: "User" },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
     courses: [
       {
         courseId: {
@@ -60,7 +59,9 @@ userSchema.pre<IUser>("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
-  this.password = await bcrypt.hash(this.password, 10);
+  if (this.password) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
   next();
 });
 

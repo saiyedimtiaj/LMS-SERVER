@@ -3,13 +3,14 @@ import AppError from "../../errors/AppError";
 import catchAsync from "../../utils/catchAsync";
 import sendEmail from "../../utils/sendMails";
 import sendResponse from "../../utils/sendResponse";
-import { IRegestationBody } from "./user.interface";
+import { IRegestationBody, IUser } from "./user.interface";
 import { userModel } from "./user.model";
 import { createActivationToken } from "../../utils/createActivationToken";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 import { sendToken } from "../../utils/jwt";
 import cloudinary from "cloudinary";
+import { jwtDecode } from "jwt-decode";
 
 const registationUser = catchAsync(async (req, res) => {
   const { name, email, password } = req.body;
@@ -48,6 +49,40 @@ const registationUser = catchAsync(async (req, res) => {
     });
   } catch (error: any) {
     throw new AppError(401, error.message);
+  }
+});
+const socialLogin = catchAsync(async (req, res) => {
+  const { name, email, picture } = req.body;
+  const isUserExist = await userModel.findOne({ email });
+  if (isUserExist) {
+    if (isUserExist.provider) {
+      const result = await sendToken(isUserExist, res);
+      sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Login sucessful!",
+        data: result,
+      });
+    }
+    throw new AppError(401, "You can't login with google");
+  } else {
+    const userData = {
+      name,
+      email,
+      avater: {
+        url: picture,
+      },
+      role: "User",
+      provider: "google",
+    };
+    const user = await userModel.create(userData);
+    const result = await sendToken(user, res);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Login sucessful!",
+      data: result,
+    });
   }
 });
 
@@ -310,4 +345,5 @@ export const userController = {
   updateUserRole,
   deleteUser,
   updateCourseAccess,
+  socialLogin,
 };

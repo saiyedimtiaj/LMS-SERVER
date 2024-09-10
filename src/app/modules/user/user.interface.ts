@@ -6,13 +6,13 @@ export interface IUser extends Document {
   email: string;
   address?: string;
   phone?: string;
-  password: string;
+  password?: string;
+  provider?: string;
   avater: {
-    public_id: string;
+    public_id?: string;
     url: string;
   };
   role: string;
-  isVerified: boolean;
   courses: {
     courseId: Types.ObjectId;
     videoNo: number;
